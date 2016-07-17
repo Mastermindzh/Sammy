@@ -2,7 +2,7 @@
 # Author: Janco Kock
 # Contributors: Rick van Lieshout
 # Last modification date: 2016-07-16
-# dependencies: 
+# dependencies: gsmartcontrol
 
 # include json functions
 . "$(dirname "$0")/"Includes/jsonFunctions.sh 
@@ -39,6 +39,34 @@ getPartitionInformation() {
 	echo $returnjson
 }
 
+getSmartData() {
+	local returnjson=''
+	currentdevice=$1
+	declare -A SmartData
+	
+	#get smart data
+	smartdataraw=$(smartctl -i /dev/$currentdevice)
+
+	#Check if there are any errors
+	if [[ $smartdataraw == *"Permission denied"* ]] || [[ $smartdataraw == *"failed"* ]]
+	then
+		exit 0
+	else
+		SmartData["modelFamily"]=$(echo "$smartdataraw" | awk '/^Model Family:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
+		SmartData["deviceModel"]=$(echo "$smartdataraw" | awk '/^Device Model:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
+		SmartData["serialNumber"]=$(echo "$smartdataraw" | awk '/^Serial Number:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
+		SmartData["firmwareVersion"]=$(echo "$smartdataraw" | awk '/^Firmware Version:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
+		SmartData["sectorSize"]=$(echo "$smartdataraw" | awk '/^Sector Size:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
+		SmartData["rotationRate"]=$(echo "$smartdataraw" | awk '/^Rotation Rate:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
+	fi
+	
+	returnjson="$(getJson "$(declare -p SmartData) smartData")"
+	
+	#finish up json
+	returnjson="\"smartData\":$returnjson"
+	echo "$returnjson"
+}
+
 # read disk space
 diskspace=$(df -T -l)
 
@@ -53,6 +81,7 @@ while read line; do
 		#partition information
 		DiskInfo[$currentdevice]=${DiskInfo[$currentdevice]}$(getPartitionInformation $currentdevice)
 		#smartdata
+		DiskInfo[$currentdevice]=${DiskInfo[$currentdevice]},$(getSmartData $currentdevice)
 		#finish object
 		DiskInfo[$currentdevice]=${DiskInfo[$currentdevice]}"}"
 	fi
