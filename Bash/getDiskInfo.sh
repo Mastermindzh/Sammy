@@ -31,8 +31,11 @@ getPartitionInformation() {
 		fi
 	done < <(lsblk -ln)
 	
-	#remove last ','
-	returnjson="${returnjson::-1}"
+	#remove last ',' if string is not empty
+	if [[ $returnjson != "" ]]
+	then
+		returnjson="${returnjson::-1}"
+	fi
 	
 	#finish up json
 	returnjson="\"partitions\":{$returnjson}"
