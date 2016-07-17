@@ -4,6 +4,9 @@
 # Last modification date: 2016-07-17
 # dependencies:  
 
+# Transform array to json
+# Usage: getJson "$(declare -p temperatures)"
+# Optional second param for json name: getJson "$(declare -p temperatures)"
 getJson(){
 	if [ -z "$2" ]; then
 		func_output="{"
@@ -22,6 +25,8 @@ getJson(){
 	echo $func_output    
 }
 
+# Combine two outputs from getJson
+# Usage: json="$(combineJson "$(declare -p output)")"
 combineJson(){
 	func_output="{"
 	
