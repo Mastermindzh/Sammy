@@ -58,4 +58,35 @@ getTemperatures(){
 	echo $json
 }
 
-getTemperatures
+getCPUInfo(){
+	# declare an associative array
+	declare -A cpuInfo
+	
+	IN=$(lscpu | tr -s " ")
+	while IFS=':' read -ra ADDR; do
+      first=true
+      for i in "${ADDR[@]}"; do
+		if $first; then
+			first=false
+			key="$i"
+		else
+			val="$i"
+		fi
+      done
+      cpuInfo[$key]=$val
+	done <<< "$IN"
+	# return the json formatted sensor data
+	json="$(getJson "$(declare -p cpuInfo)" cpuInfo)"
+	echo $json
+}
+
+
+# declare an associative array
+declare -A output
+
+output["cpuinfo"]=$(getCPUInfo)
+output["temperatures"]=$(getTemperatures)
+
+json="$(combineJson "$(declare -p output)")"
+
+echo $json
