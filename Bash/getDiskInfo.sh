@@ -6,7 +6,6 @@
 
 # include json functions
 . "$(dirname "$0")/"Includes/json_functions.sh
-. "$(dirname "$0")/"Includes/functions.sh
 
 # vars
 diskspace=$(df -T -l)
