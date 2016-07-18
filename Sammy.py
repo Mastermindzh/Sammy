@@ -17,3 +17,8 @@ def test():
 def getCpuInfo():
     process = subprocess.Popen("./Bash/getCPUInfo.sh", stdout=subprocess.PIPE)
     return process.communicate()[0]
+
+@app.route('/mem')
+def getMemInfo():
+    process = subprocess.Popen("./Bash/getMemInfo.sh", stdout=subprocess.PIPE)
+    return process.communicate()[0]
