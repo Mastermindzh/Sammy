@@ -11,13 +11,14 @@
 uptime=$(cat /proc/uptime | awk '{print $1}')
 
 #Read boot up time in unix timestamp
-boottime=$(date --date="$(who -s | awk '{print $3 " " $4}')" +"%s")
+boottime=$(date --date="$(who -s | awk 'NR==1{print $3 " " $4}')" +"%s")
 
 #Read distro information
-distributor=$(lsb_release -a | awk '/^Distributor ID:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
-description=$(lsb_release -a | awk '/^Description:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
-release=$(lsb_release -a | awk '/^Release:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
-codename=$(lsb_release -a | awk '/^Codename:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
+lsbrelease=$(lsb_release -a)
+distributor=$(echo "$lsbrelease" | awk '/^Distributor ID:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
+description=$(echo "$lsbrelease" | awk '/^Description:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
+release=$(echo "$lsbrelease" | awk '/^Release:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
+codename=$(echo "$lsbrelease" | awk '/^Codename:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
 
 # declare an associative array
 declare -A SystemInfo
@@ -29,6 +30,6 @@ SystemInfo["description"]=$description
 SystemInfo["release"]=$release
 SystemInfo["codename"]=$codename
 
-json="$(getJson "$(declare -p SystemInfo)" SystemInfo)"
+json="$(getJson "$(declare -p SystemInfo)")"
 echo $json
  
