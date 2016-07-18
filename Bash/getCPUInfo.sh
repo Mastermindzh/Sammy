@@ -110,11 +110,9 @@ getCPUInfo(){
 # declare an associative array
 declare -A output
 
-output["cpuinfo"]=$(getCPUInfo)
-output["temperatures"]=$(getTemperatures)
-output["load"]=$(getLoad)
+output["3"]=$(getCPUInfo)
+output["1"]=$(getTemperatures)
+output["2"]=$(getLoad)
 json="$(combineJson "$(declare -p output)")"
-
-
 
 echo $json
