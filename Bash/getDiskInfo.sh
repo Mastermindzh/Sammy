@@ -2,12 +2,16 @@
 # Author: Janco Kock
 # Contributors: Rick van Lieshout
 # Last modification date: 2016-07-16
-# dependencies: gsmartcontrol
+# dependencies: gsmartcontro, hddtemp
 
 # include json functions
 . "$(dirname "$0")/"Includes/jsonFunctions.sh 
 
-# declare some other functions
+# vars
+diskspace=$(df -T -l)
+disklist=$(lsblk -ln)
+
+# functions
 getPartitionInformation() {
 	local returnjson=''
 	currentdevice=$1
@@ -29,7 +33,7 @@ getPartitionInformation() {
 			#Add this information to the total json object
 			returnjson=$returnjson$json","
 		fi
-	done < <(lsblk -ln)
+	done < <(echo "$disklist")
 	
 	#remove last ',' if string is not empty
 	if [[ $returnjson != "" ]]
@@ -61,6 +65,7 @@ getSmartData() {
 		SmartData["firmwareVersion"]=$(echo "$smartdataraw" | awk '/^Firmware Version:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
 		SmartData["sectorSize"]=$(echo "$smartdataraw" | awk '/^Sector Size:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
 		SmartData["rotationRate"]=$(echo "$smartdataraw" | awk '/^Rotation Rate:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
+		SmartData["temperature"]=$(hddtemp /dev/$currentdevice | awk 'NF>1{print $NF}')
 	fi
 	
 	returnjson="$(getJson "$(declare -p SmartData) smartData")"
@@ -70,8 +75,6 @@ getSmartData() {
 	echo "$returnjson"
 }
 
-# read disk space
-diskspace=$(df -T -l)
 
 # loop through disks connected to the device
 declare -A DiskInfo
@@ -88,7 +91,7 @@ while read line; do
 		#finish object
 		DiskInfo[$currentdevice]=${DiskInfo[$currentdevice]}"}"
 	fi
-done < <(lsblk -ln)
+done < <(echo "$disklist")
 
 json="$(combineJson "$(declare -p DiskInfo)")"
 echo $json
