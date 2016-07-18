@@ -5,9 +5,9 @@
 # dependencies: 
 
 # include json functions
-. "$(dirname "$0")/"Includes/jsonFunctions.sh 
+. "$(dirname "$0")/"Includes/json_functions.sh
 
-#Read uptime in seconds
+# Read uptime in seconds
 uptime=$(cat /proc/uptime | awk '{print $1}')
 
 #Read boot up time in unix timestamp
@@ -23,13 +23,13 @@ codename=$(echo "$lsbrelease" | awk '/^Codename:/' | cut -d":" -f2 | sed "s/^[ \
 # declare an associative array
 declare -A SystemInfo
 
-SystemInfo["uptime"]=$uptime
-SystemInfo["boottime"]=$boottime
-SystemInfo["distributor"]=$distributor
-SystemInfo["description"]=$description
-SystemInfo["release"]=$release
-SystemInfo["codename"]=$codename
+SystemInfo["Uptime"]=$uptime
+SystemInfo["Bootup_time"]=$boottime
+SystemInfo["Distributor"]=$distributor
+SystemInfo["Description"]=$description
+SystemInfo["Release"]=$release
+SystemInfo["Codename"]=$codename
 
-json="$(getJson "$(declare -p SystemInfo)")"
+json="$(get_json "$(declare -p SystemInfo)")"
 echo $json
  
