@@ -5,8 +5,8 @@
 # dependencies: Bash
 
 # check wether software is installed
-# Usage: checkIfInstalled "sensors"
-checkIfInstalled(){	
+# Usage: check_if_installed "sensors"
+check_if_installed(){
 	if ! foobar_loc="$(type -p "$1")" || [ -z "$foobar_loc" ]; then
 		echo 0
 	else

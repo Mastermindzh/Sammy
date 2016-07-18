@@ -1,45 +1,48 @@
 #!/bin/bash
 # Author: Rick van Lieshout
-# Contributors: 
+# Contributors:
 # Last modification date: 2016-07-16
 # dependencies: lm_sensors
 
 # include json functions
-. "$(dirname "$0")/"Includes/jsonFunctions.sh
+. "$(dirname "$0")/"Includes/json_functions.sh
 . "$(dirname "$0")/"Includes/functions.sh
 
-getLoad(){
-	declare -A loadArray
-	
-	IN=$(uptime | grep -ohe 'load average[s:][: ].*' | awk '{ print $3 $4 $5}' | tr "," "\n")
-	
+get_load(){
+    # declare an associative array
+	declare -A load_array
+
+	input=$(uptime | grep -ohe 'load average[s:][: ].*' | awk '{ print $3 $4 $5}' | tr "," "\n")
+
 	counter=0
-	for load in $IN
+	# for each word in $input do...
+	for load in $input
 	do
 		counter=$(($counter + 1))
 		if [ $counter -eq 1 ]; then
-			loadArray["5min"]=$load
+			load_array["5min"]=$load
 		elif [ $counter -eq 2 ]; then
-			loadArray["10min"]=$load
-		else 
-			loadArray["15min"]=$load
+			load_array["10min"]=$load
+		else
+			load_array["15min"]=$load
 		fi
 	done
-	
+
+    # grab the cpu utilization percentage
 	percentage=$(cat <(grep 'cpu ' /proc/stat) <(sleep 1 && grep 'cpu ' /proc/stat) | awk -v RS="" '{print ($13-$2+$15-$4)*100/($13-$2+$15-$4+$16-$5) "%"}')
-	loadArray["percentage"]=$percentage
-	
+	load_array["percentage"]=$percentage
+
 	# return the json formatted sensor data
-	json="$(getJson "$(declare -p loadArray)" loadArray)"
+	json="$(get_json "$(declare -p load_array)" load_array)"
 	echo $json
 }
 
-getTemperatures(){	
+get_temperatures(){
 	# declare an associative array
 	declare -A temperatures
-	
+
 	# check wether sensors is installed
-	if [ $(checkIfInstalled "sensors") -eq 1 ]; then
+	if [ $(check_if_installed "sensors") -eq 1 ]; then
 		# get sensor data
 		vendor=$(sensors | grep -w "Core 0:")
 		if [ -z "$vendor" ]; then
@@ -47,15 +50,15 @@ getTemperatures(){
 		else
 			s=$(sensors | grep -w Core | sed 's/([^)]*)//g' | tr -s " ")
 		fi
-		
+
 			# loop through $s
-		while read line; do 
+		while read line; do
 
 			# filter out whatever is between "Core", "temp" and ":"
 			var=$(echo "$line" | sed -e 's/Core\(.*\):/\1/' | sed -e 's/temp\(.*\):/\1/')
 
 			first=true
-			
+
 			# loop through words in line
 			for word in $var; do
 				# set the first word as key
@@ -69,25 +72,27 @@ getTemperatures(){
 			done
 			# finally put it into an associative array
 			temperatures[$key]=$value
-			
-		done <<< "$s"		
-	
-	# sensors is NOT installed	
+
+		done <<< "$s"
+
+	# sensors is NOT installed
 	else
 		var=$(($(cat /sys/class/thermal/thermal_zone0/temp) / 1000))
 		temperatures["0"]=$var
 	fi
 
 	# return the json formatted sensor data
-	json="$(getJson "$(declare -p temperatures)" temperatures)"
+	json="$(get_json "$(declare -p temperatures)" temperatures)"
 	echo $json
 }
 
-getCPUInfo(){
+get_cpu_info(){
 	# declare an associative array
-	declare -A cpuInfo
-	
-	IN=$(lscpu | tr -s " ")
+	declare -A cpu_info
+
+	input=$(lscpu | tr -s " ")
+
+	#split on : and read all lines
 	while IFS=':' read -ra ADDR; do
       first=true
       for i in "${ADDR[@]}"; do
@@ -98,19 +103,17 @@ getCPUInfo(){
 			val="$i"
 		fi
       done
-      cpuInfo[$key]=$val
-	done <<< "$IN"
+      cpu_info[$key]=$val
+	done <<< "$input"
 	# return the json formatted sensor data
-	json="$(getJson "$(declare -p cpuInfo)" cpuInfo)"
+	json="$(get_json "$(declare -p cpu_info)" cpu_info)"
 	echo $json
 }
 
-# declare an associative array
-declare -A output
 
-output["3"]=$(getCPUInfo)
-output["1"]=$(getTemperatures)
-output["2"]=$(getLoad)
-json="$(combineJson "$(declare -p output)")"
+
+# fill it with the relevant information
+array=("$(get_temperatures)" "$(get_load)" "$(get_cpu_info)"  )
+json=$(combine_json "${array[@]}")
 
 echo $json

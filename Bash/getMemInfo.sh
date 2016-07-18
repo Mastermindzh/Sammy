@@ -5,14 +5,14 @@
 # dependencies: lm_sensors
 
 # include json functions
-. "$(dirname "$0")/"Includes/jsonFunctions.sh
+. "$(dirname "$0")/"Includes/json_functions.sh
 
 
-getDetails(){
+get_details(){
 	# declare an associative array
-	declare -A memInfo
-	
-	IN=$(cat /proc/meminfo | tr -s " ")
+	declare -A mem_info
+
+	input=$(cat /proc/meminfo | tr -s " ")
 	while IFS=':' read -ra ADDR; do
       first=true
       for i in "${ADDR[@]}"; do
@@ -23,25 +23,25 @@ getDetails(){
 			val="$i"
 		fi
       done
-      memInfo[$key]=$(echo $val | tr -s " ")
-	done <<< "$IN"
+      mem_info[$key]=$(echo $val | tr -s " ")
+	done <<< "$input"
 	# return the json formatted sensor data
-	json="$(getJson "$(declare -p memInfo)" memInfo)"
+	json="$(get_json "$(declare -p mem_info)" mem_info)"
 	echo $json
 }
 
-getMemInfo(){
-	
-	#declare an associative array	
-	declare -A memInfo
-	
+get_mem_info(){
+
+	#declare an associative array
+	mem_info=()
+
 	# get memory info, skip first line and strip whitespace
-	IN=$(free -h | tr -s " " | sed -n '1!p')
-	
-	
+	input=$(free -h | tr -s " " | sed -n '1!p')
+
+
     while IFS= read -r line; do
 		declare -A tempMemInfo
-		counter=0	
+		counter=0
 		array=( $line )
         for word in "${array[@]}"; do
 			counter=$(($counter+1))
@@ -61,20 +61,17 @@ getMemInfo(){
 				tempMemInfo["available"]="$word"
 			fi
         done
-        memInfo[${name::-1}]="$(getJson "$(declare -p tempMemInfo)" ${name})"
+        mem_info+=("$(get_json "$(declare -p tempMemInfo)" ${name})")
         unset tempMemInfo
-    done < <(echo "$IN")
-	
-	json="$(combineJson "$(declare -p memInfo)")"
+    done < <(echo "$input")
+
+	json="$(combine_json "${mem_info[@]}")"
 	echo "$json"
 }
 
-# declare an associative array
-declare -A output
-
-output["1"]="\"info\":"$(getMemInfo)
-output["2"]=$(getDetails)
-json="$(combineJson "$(declare -p output)")"
-
+# fill it with the relevant information
+array=("$(get_mem_info)" "$(get_details)")
+json=$(combine_json "${array[@]}")
 
 echo $json
+

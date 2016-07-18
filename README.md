@@ -22,3 +22,7 @@ This will return the current working directory of your Flask app
 | ------------- | ------------- |
 | /cpu    | CPU information, includes temperatures and load average.  |
 | /mem    | Memory information, includes cache.  |
+
+# Coding styleguide
+We will be following [Google's shell style guide](https://google.github.io/styleguide/shell.xml) for our Bash scripts.
+And we will be following [Pep 8 -- Style Guide for Python Code](https://www.python.org/dev/peps/pep-0008/) for our python api.
