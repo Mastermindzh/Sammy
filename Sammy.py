@@ -21,3 +21,8 @@ def get_cpu_info():
 def get_mem_info():
     process = subprocess.Popen("./Bash/getMemInfo.sh", stdout=subprocess.PIPE)
     return process.communicate()[0]
+
+@app.route('/sysinfo')
+def get_sys_info():
+    process = subprocess.Popen("./Bash/getSystemInfo.sh", stdout=subprocess.PIPE)
+    return process.communicate()[0]
