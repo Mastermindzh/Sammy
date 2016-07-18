@@ -5,7 +5,8 @@
 # dependencies: gsmartcontro, hddtemp
 
 # include json functions
-. "$(dirname "$0")/"Includes/jsonFunctions.sh 
+. "$(dirname "$0")/"Includes/json_functions.sh
+. "$(dirname "$0")/"Includes/functions.sh
 
 # vars
 diskspace=$(df -T -l)
@@ -28,21 +29,22 @@ getPartitionInformation() {
 			PartitionInformation["mountpoint"]=$(echo "$diskspace" | grep $currentpartition | awk '{print $7}')
 			
 			#convert this to json 
-			json="$(getJson "$(declare -p PartitionInformation)" $currentpartition)"
+			json="$(get_json "$(declare -p PartitionInformation)" $currentpartition)"
 			
 			#Add this information to the total json object
-			returnjson=$returnjson$json","
+			array=("$json" "$returnjson")
+			returnjson=$(combine_json "${array[@]}")
 		fi
 	done < <(echo "$disklist")
 	
 	#remove last ',' if string is not empty
 	if [[ $returnjson != "" ]]
 	then
-		returnjson="${returnjson::-1}"
+		returnjson="${returnjson::-3}"
 	fi
 	
 	#finish up json
-	returnjson="\"partitions\":{$returnjson}"
+	returnjson="{\"partitions\":$returnjson}}"
 	echo $returnjson
 }
 
@@ -68,30 +70,29 @@ getSmartData() {
 		SmartData["temperature"]=$(hddtemp /dev/$currentdevice | awk 'NF>1{print $NF}')
 	fi
 	
-	returnjson="$(getJson "$(declare -p SmartData) smartData")"
+	returnjson="$(get_json "$(declare -p SmartData) smartData")"
 	
 	#finish up json
-	returnjson="\"smartData\":$returnjson"
 	echo "$returnjson"
 }
 
 
 # loop through disks connected to the device
-declare -A DiskInfo
+endjson="{"
 while read line; do 
 	if [[ $line == *"disk"* ]] #Disk found
 	then
 		currentdevice=$(echo $line | awk '{print $1}')
-		DiskInfo[$currentdevice]="\"$currentdevice\": {"
 		
 		#partition information
-		DiskInfo[$currentdevice]=${DiskInfo[$currentdevice]}$(getPartitionInformation $currentdevice)
+		partitionjson=$(getPartitionInformation $currentdevice)
 		#smartdata
-		DiskInfo[$currentdevice]=${DiskInfo[$currentdevice]},$(getSmartData $currentdevice)
-		#finish object
-		DiskInfo[$currentdevice]=${DiskInfo[$currentdevice]}"}"
+		smartdatajson=$(getSmartData $currentdevice)
+		
+		array=("$partitionjson" "$smartdatajson")
+		json=$(combine_json "${array[@]}")
+		endjson="$endjson \"$currentdevice\":$json,"
 	fi
 done < <(echo "$disklist")
-
-json="$(combineJson "$(declare -p DiskInfo)")"
-echo $json
+endjson="${endjson::-1}}"
+echo "$endjson"
