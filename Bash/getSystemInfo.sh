@@ -5,15 +5,15 @@
 # dependencies: 
 
 # include json functions
-. "$(dirname "$0")/"Includes/jsonFunctions.sh 
+. "$(dirname "$0")/"Includes/json_functions.sh
 
-#Read uptime in seconds
+# Read uptime in seconds
 uptime=$(cat /proc/uptime | awk '{print $1}')
 
-#Read boot up time in unix timestamp
+# Read boot up time in unix timestamp
 boottime=$(date --date="$(who -s | awk '{print $3 " " $4}')" +"%s")
 
-#Read distro information
+# Read distro information
 distributor=$(lsb_release -a | awk '/^Distributor ID:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
 description=$(lsb_release -a | awk '/^Description:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
 release=$(lsb_release -a | awk '/^Release:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
@@ -22,13 +22,13 @@ codename=$(lsb_release -a | awk '/^Codename:/' | cut -d":" -f2 | sed "s/^[ \t]*/
 # declare an associative array
 declare -A SystemInfo
 
-SystemInfo["uptime"]=$uptime
-SystemInfo["boottime"]=$boottime
-SystemInfo["distributor"]=$distributor
-SystemInfo["description"]=$description
-SystemInfo["release"]=$release
-SystemInfo["codename"]=$codename
+SystemInfo["Uptime"]=$uptime
+SystemInfo["Bootup time"]=$boottime
+SystemInfo["Distributor"]=$distributor
+SystemInfo["Description"]=$description
+SystemInfo["Release"]=$release
+SystemInfo["Codename"]=$codename
 
-json="$(getJson "$(declare -p SystemInfo)" SystemInfo)"
+json="$(get_json "$(declare -p SystemInfo)" system_info)"
 echo $json
  
