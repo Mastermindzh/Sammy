@@ -13,7 +13,7 @@ diskspace=$(df -T -l)
 disklist=$(lsblk -ln)
 
 # functions
-getPartitionInformation() {
+get_partition_information() {
 	local returnjson=''
 	currentdevice=$1
 	while read line; do 
@@ -48,7 +48,7 @@ getPartitionInformation() {
 	echo $returnjson
 }
 
-getSmartData() {
+get_smart_data() {
 	local returnjson=''
 	currentdevice=$1
 	declare -A SmartData
@@ -85,9 +85,9 @@ while read line; do
 		currentdevice=$(echo $line | awk '{print $1}')
 		
 		#partition information
-		partitionjson=$(getPartitionInformation $currentdevice)
+		partitionjson=$(get_partition_information $currentdevice)
 		#smartdata
-		smartdatajson=$(getSmartData $currentdevice)
+		smartdatajson=$(get_smart_data $currentdevice)
 		
 		array=("$partitionjson" "$smartdatajson")
 		json=$(combine_json "${array[@]}")
