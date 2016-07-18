@@ -16,14 +16,13 @@ getLoad(){
 	counter=0
 	for load in $IN
 	do
-		
 		counter=$(($counter + 1))
 		if [ $counter -eq 1 ]; then
-			loadArray["5min"]=[$load]
+			loadArray["5min"]=$load
 		elif [ $counter -eq 2 ]; then
-			loadArray["10min"]=[$load]
+			loadArray["10min"]=$load
 		else 
-			loadArray["15min"]=[$load]
+			loadArray["15min"]=$load
 		fi
 	done
 	
@@ -38,7 +37,6 @@ getLoad(){
 getTemperatures(){	
 	# declare an associative array
 	declare -A temperatures
-	
 	
 	# check wether sensors is installed
 	if [ $(checkIfInstalled "sensors") -eq 1 ]; then
@@ -114,7 +112,5 @@ output["cpuinfo"]=$(getCPUInfo)
 output["temperatures"]=$(getTemperatures)
 output["load"]=$(getLoad)
 json="$(combineJson "$(declare -p output)")"
-
-
 
 echo $json

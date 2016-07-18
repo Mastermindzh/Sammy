@@ -22,7 +22,7 @@ getJson(){
 	done
 	func_output=$(echo "$func_output" | sed 's/,$//')
 	func_output="$func_output }"
-	echo $func_output    
+	echo "$func_output"
 }
 
 # Combine two outputs from getJson
