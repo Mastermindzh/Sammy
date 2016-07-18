@@ -1,4 +1,5 @@
 #!/bin/bash
+LANGUAGE=en
 # Author: Janco Kock
 # Contributors: Rick van Lieshout
 # Last modification date: 2016-07-16
@@ -13,7 +14,7 @@ disklist=$(lsblk -ln)
 
 # functions
 get_partition_information() {
-	local returnjson=''
+	local partitionJson
 	currentdevice=$1
 	while read line; do 
 		if [[ $line == *"part"*  ]] && [[ $line == *"$currentdevice"*  ]]
@@ -30,25 +31,23 @@ get_partition_information() {
 			#convert this to json 
 			json="$(get_json "$(declare -p PartitionInformation)" $currentpartition)"
 			
-			#Add this information to the total json object
-			array=("$json" "$returnjson")
-			returnjson=$(combine_json "${array[@]}")
+			#Combine this to the total json object, if the total json object is not empty
+			if [[ "$partitionJson" != "" ]]; then
+				array=("$json" "$partitionJson")
+				partitionJson=$(combine_json "${array[@]}")
+			else
+				partitionJson="$json"
+			fi
 		fi
 	done < <(echo "$disklist")
 	
-	#remove last ',' if string is not empty
-	if [[ $returnjson != "" ]]
-	then
-		returnjson="${returnjson::-3}"
-	fi
-	
 	#finish up json
-	returnjson="{\"partitions\":$returnjson}}"
-	echo $returnjson
+	partitionJson="{\"partitions\":$partitionJson}"
+	echo $partitionJson
 }
 
 get_smart_data() {
-	local returnjson=''
+	local smartDataJson
 	currentdevice=$1
 	declare -A SmartData
 	
@@ -56,10 +55,7 @@ get_smart_data() {
 	smartdataraw=$(smartctl -i /dev/$currentdevice)
 
 	#Check if there are any errors
-	if [[ $smartdataraw == *"Permission denied"* ]] || [[ $smartdataraw == *"failed"* ]]
-	then
-		exit 0
-	else
+	if [[ $smartdataraw != *"Permission denied"* ]] || [[ $smartdataraw != *"failed"* ]]; then
 		SmartData["modelFamily"]=$(echo "$smartdataraw" | awk '/^Model Family:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
 		SmartData["deviceModel"]=$(echo "$smartdataraw" | awk '/^Device Model:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
 		SmartData["serialNumber"]=$(echo "$smartdataraw" | awk '/^Serial Number:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
@@ -67,12 +63,9 @@ get_smart_data() {
 		SmartData["sectorSize"]=$(echo "$smartdataraw" | awk '/^Sector Size:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
 		SmartData["rotationRate"]=$(echo "$smartdataraw" | awk '/^Rotation Rate:/' | cut -d":" -f2 | sed "s/^[ \t]*//")
 		SmartData["temperature"]=$(hddtemp /dev/$currentdevice | awk 'NF>1{print $NF}')
+		smartDataJson="$(get_json "$(declare -p SmartData) smartData")"
+		echo "$smartDataJson"
 	fi
-	
-	returnjson="$(get_json "$(declare -p SmartData) smartData")"
-	
-	#finish up json
-	echo "$returnjson"
 }
 
 
@@ -87,7 +80,7 @@ while read line; do
 		partitionjson=$(get_partition_information $currentdevice)
 		#smartdata
 		smartdatajson=$(get_smart_data $currentdevice)
-		
+
 		array=("$partitionjson" "$smartdatajson")
 		json=$(combine_json "${array[@]}")
 		endjson="$endjson \"$currentdevice\":$json,"
