@@ -8,6 +8,33 @@
 . "$(dirname "$0")/"Includes/jsonFunctions.sh
 . "$(dirname "$0")/"Includes/functions.sh
 
+getLoad(){
+	declare -A loadArray
+	
+	IN=$(uptime | grep -ohe 'load average[s:][: ].*' | awk '{ print $3 $4 $5}' | tr "," "\n")
+	
+	counter=0
+	for load in $IN
+	do
+		
+		counter=$(($counter + 1))
+		if [ $counter -eq 1 ]; then
+			loadArray["5min"]=[$load]
+		elif [ $counter -eq 2 ]; then
+			loadArray["10min"]=[$load]
+		else 
+			loadArray["15min"]=[$load]
+		fi
+	done
+	
+	percentage=$(cat <(grep 'cpu ' /proc/stat) <(sleep 1 && grep 'cpu ' /proc/stat) | awk -v RS="" '{print ($13-$2+$15-$4)*100/($13-$2+$15-$4+$16-$5) "%"}')
+	loadArray["percentage"]=$percentage
+	
+	# return the json formatted sensor data
+	json="$(getJson "$(declare -p loadArray)" loadArray)"
+	echo $json
+}
+
 getTemperatures(){	
 	# declare an associative array
 	declare -A temperatures
@@ -80,13 +107,14 @@ getCPUInfo(){
 	echo $json
 }
 
-
 # declare an associative array
 declare -A output
 
 output["cpuinfo"]=$(getCPUInfo)
 output["temperatures"]=$(getTemperatures)
-
+output["load"]=$(getLoad)
 json="$(combineJson "$(declare -p output)")"
+
+
 
 echo $json
