@@ -20,4 +20,9 @@ def get_cpu_info():
 @app.route('/mem')
 def get_mem_info():
     process = subprocess.Popen("./Bash/getMemInfo.sh", stdout=subprocess.PIPE)
+    return process.communicate()[0]@app.route('/mem')
+
+@app.route('/disk')
+def get_disk_info():
+    process = subprocess.Popen("./Bash/getDiskInfo.sh", stdout=subprocess.PIPE)
     return process.communicate()[0]
