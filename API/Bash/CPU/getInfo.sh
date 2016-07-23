@@ -4,6 +4,8 @@
 # Last modification date: 2016-07-20
 # dependencies: lm_sensors
 
+LANGUAGE=C
+
 # include json functions
 . "$(dirname "$0")/../"Includes/json_functions.sh
 
@@ -34,5 +36,4 @@ get_cpu_info(){
 	echo $json
 }
 
-LANGUAGE=C
 get_cpu_info
