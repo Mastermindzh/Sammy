@@ -31,10 +31,10 @@ get_partition_information() {
 			
 			#convert this to json 
 			json="$(get_json "$(declare -p partition_information)" $currentpartition)"
-			
+
 			#Combine this to the total json object, if the total json object is not empty
-			if [[ "$partition_information" != "" ]]; then
-				array=("$json" "$partition_information")
+			if [[ "$partition_json" != "" ]]; then
+				array=("$json" "$partition_json")
 				partition_json=$(combine_json "${array[@]}")
 			else
 				partition_json="$json"
@@ -76,7 +76,6 @@ get_smart_data() {
 }
 
 # loop through disks connected to the device
-endjson="{"
 while read line; do 
 	if [[ $line == *"disk"* ]] #Disk found
 	then
@@ -89,8 +88,14 @@ while read line; do
 
 		array=("$partitionjson" "$smartdatajson")
 		json=$(combine_json "${array[@]}")
-		endjson="$endjson \"$currentdevice\":$json,"
+		json="{\"$currentdevice\":$json}"
+		
+		if [[ "$diskinfo_json" != "" ]]; then
+			array=("$json" "$diskinfo_json")
+			diskinfo_json=$(combine_json "${array[@]}")
+		else
+			diskinfo_json="$json"
+		fi
 	fi
 done < <(echo "$disklist")
-endjson="${endjson::-1}}"
-echo "$endjson"
+echo "$diskinfo_json"
