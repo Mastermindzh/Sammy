@@ -19,6 +19,8 @@ Depending on your distro you'll have to run either one of these commands:
 ### Installing Flask systemwide
 To install flask systemwide we use:
 `sudo pip install flask`
+In order for the caching to work we use:
+`sudo pip install flask_cache`
 
 
 ### Installing Flask in a virtualenv
