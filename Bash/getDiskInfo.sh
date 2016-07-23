@@ -1,9 +1,10 @@
 #!/bin/bash
-LANGUAGE=en
 # Author: Janco Kock
 # Contributors: Rick van Lieshout
 # Last modification date: 2016-07-16
 # dependencies: gsmartcontrol, hddtemp
+
+LANGUAGE=en
 
 # include functions
 . "$(dirname "$0")/"Includes/json_functions.sh
@@ -98,4 +99,5 @@ while read line; do
 		fi
 	fi
 done < <(echo "$disklist")
+
 echo "$diskinfo_json"
