@@ -4,7 +4,7 @@
 # Last modification date: 2016-07-16
 # dependencies: gsmartcontrol, hddtemp
 
-LANGUAGE=en
+LANGUAGE=C
 
 # include functions
 . "$(dirname "$0")/../"Includes/json_functions.sh
