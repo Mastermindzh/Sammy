@@ -55,9 +55,9 @@ json_array(){
 	array=("$@")
 	
 	#remove the last parameter which we are using as our key
-	((last_idx=${#array[@]} - 1))
-    key=${array[last_idx]}
-    unset array[last_idx]
+	((last_index=${#array[@]} - 1))
+    key=${array[last_index]}
+    unset array[last_index]
     
     func_output="{\"$key\":["
 	
