@@ -23,69 +23,60 @@ def hello_world():
 # Test method
 @app.route('/pwd')
 def test():
-    process = subprocess.Popen("pwd", stdout=subprocess.PIPE, )
+    process = subprocess.Popen(["pwd"], stdout=subprocess.PIPE)
     return process.communicate()[0]
 
 
 # All cpu information
 @app.route('/cpu')
 def get_cpu_all():
-    process = subprocess.Popen(["bash", "Bash/CPU/getAll.sh"], stdout=subprocess.PIPE)
-    return process.communicate()[0]
+    return run_bash_file("Bash/CPU/getAll.sh")
 
 
 # CPU temperature
 @app.route('/cpu/temp')
 def get_cpu_temp():
-    process = subprocess.Popen(["bash", "Bash/CPU/getTemp.sh"], stdout=subprocess.PIPE)
-    return process.communicate()[0]
+    return run_bash_file("Bash/CPU/getTemp.sh")
 
 
 # CPU load
 @app.route('/cpu/load')
 def get_cpu_load():
-    process = subprocess.Popen(["bash", "Bash/CPU/getLoad.sh"], stdout=subprocess.PIPE)
-    return process.communicate()[0]
+    return run_bash_file("Bash/CPU/getLoad.sh")
 
 
 # CPU info
 @app.route('/cpu/info')
 def get_cpu_info():
-    process = subprocess.Popen(["bash", "Bash/CPU/getInfo.sh"], stdout=subprocess.PIPE)
-    return process.communicate()[0]
+    return run_bash_file("Bash/CPU/getInfo.s")
 
 
 # all memory info
 @app.route('/mem')
 def get_mem_all():
-    process = subprocess.Popen(["bash", "Bash/MEM/getAll.sh"], stdout=subprocess.PIPE)
-    return process.communicate()[0]
+    return run_bash_file("Bash/MEM/getAll.sh")
 
 
 # memory info
 @app.route('/mem/info')
 def get_mem_info():
-    process = subprocess.Popen(["bash", "Bash/MEM/getInfo.sh"], stdout=subprocess.PIPE)
-    return process.communicate()[0]
+    return run_bash_file("Bash/MEM/getInfo.sh")
 
 
 # memory info
 @app.route('/mem/load')
 def get_mem_load():
-    process = subprocess.Popen(["bash", "Bash/MEM/getLoad.sh"], stdout=subprocess.PIPE)
-    return process.communicate()[0]
+    return run_bash_file("Bash/MEM/getLoad.sh")
 
 
 @app.route('/sysinfo')
 def get_sys_info():
-    process = subprocess.Popen("./Bash/getSystemInfo.sh", stdout=subprocess.PIPE)
-    return process.communicate()[0]
+    return run_bash_file("Bash/getSystemInfo.sh")
 
 
 @app.route('/disk')
 def get_disk_info():
-    process = subprocess.Popen(["bash", "Bash/DISK/getDiskInfo.sh"], stdout=subprocess.PIPE)
-    return process.communicate()[0]
+    return run_bash_file("Bash/DISK/getDiskInfo.sh")
 
 
 @app.route('/greyhole')
