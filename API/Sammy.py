@@ -1,6 +1,7 @@
 from flask_cache import Cache
 from flask import Flask
 
+import os.path
 import subprocess
 
 # store cache values
@@ -84,4 +85,37 @@ def get_sys_info():
 @app.route('/disk')
 def get_disk_info():
     process = subprocess.Popen(["bash", "Bash/DISK/getDiskInfo.sh"], stdout=subprocess.PIPE)
-    return process.communicate()[0]    
+    return process.communicate()[0]
+
+
+@app.route('/greyhole')
+def get_disk_info():
+    return run_bash_file("Bash/GREYHOLE/getGreyholeInfo.sh")
+
+
+@app.route('/greyhole/io')
+def get_disk_info():
+    return run_bash_file("Bash/GREYHOLE/getIO.sh")
+
+
+@app.route('/greyhole/log')
+def get_disk_info():
+    return run_bash_file("Bash/GREYHOLE/getLog.sh")
+
+
+@app.route('/greyhole/queue')
+def get_disk_info():
+    return run_bash_file("Bash/GREYHOLE/getQueue.sh")
+
+
+@app.route('/greyhole/statistics')
+def get_disk_info():
+    return run_bash_file("Bash/GREYHOLE/getStatistics.sh")
+
+
+def run_bash_file(filepath):
+    if os.path.isfile(filepath):
+        process = subprocess.Popen(["bash", filepath], stdout=subprocess.PIPE)
+        return process.communicate()[0]
+    else:
+        return '{"error":"Bash file not found"}'
