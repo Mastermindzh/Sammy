@@ -1,8 +1,8 @@
-from flask_cache import Cache
-from flask import Flask
-
 import os.path
 import subprocess
+
+from flask import Flask
+from flask_cache import Cache
 
 # store cache values
 cache_values={'minute': 60,'hour': 3600,'day': 86400, 'week': 604800}
@@ -105,6 +105,10 @@ def get_disk_info():
 
 
 def run_bash_file(filepath):
+    """Execute a bash file and returns the output of the command.
+    Arguments: Path to the bash file.
+    Will return an error if the file doesn't exist.
+    """
     if os.path.isfile(filepath):
         process = subprocess.Popen(["bash", filepath], stdout=subprocess.PIPE)
         return process.communicate()[0]
