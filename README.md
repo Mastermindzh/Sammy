@@ -1,5 +1,7 @@
 # Sammy
 Simple python rest api to simplify getting OS information on a linux system.
+
+## tracking development
 To track development we use Trello, have a look at what we're doing: [https://trello.com/b/rwl3X5wq/scrumboard](https://trello.com/b/rwl3X5wq/scrumboard)
 
 # How to run
