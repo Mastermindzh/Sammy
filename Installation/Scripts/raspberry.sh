@@ -11,3 +11,5 @@ apt-get install -y python-pip smartmontools
 
 # install flask
 pip install flask
+
+pip install flask-cors

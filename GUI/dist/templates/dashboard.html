@@ -1,0 +1,70 @@
+<div data-ng-controller="DashboardCtrl">
+    <div rd-loading ng-show="cpuloading || memloading"></div>
+    <div class="row" ng-show="!(cpuloading || memloading)">
+        <div class="col-lg-4 col-md-6 col-xs-12">
+            <rd-widget>
+                <rd-widget-body>
+                    <div class="widget-icon green pull-left">
+                        <i class="fa fa-tasks"></i>
+                    </div>
+                    <div class="title">CPU</div>
+                    <div class="comment">
+                        {{ cpuinfo['Model name'] }}
+                    </div>
+                </rd-widget-body>
+            </rd-widget>
+        </div>
+        <div class="col-lg-4 col-md-6 col-xs-12">
+            <rd-widget>
+                <rd-widget-body>
+                    <div class="widget-icon red pull-left">
+                        <i class="fa fa-tasks"></i>
+                    </div>
+                    <div class="title">RAM</div>
+                    <div class="comment">Used {{ meminfo.used }} of {{ meminfo.total }} <strong>({{ ((meminfo.used.slice(0,-1) / meminfo.total.slice(0,-1)) * 100) | number:2}} %)</strong></div>
+                </rd-widget-body>
+            </rd-widget>
+        </div>
+        <div class="col-lg-4 col-md-6 col-xs-12">
+            <rd-widget>
+                <rd-widget-body>
+                    <div class="widget-icon orange pull-left">
+                        <i class="fa fa-sitemap"></i>
+                    </div>
+                    <div class="title">GPU</div>
+                    <div class="comment">GPU AWESOMENESS</div>
+                </rd-widget-body>
+            </rd-widget>
+        </div>
+    </div>
+    <hr>
+
+    <div rd-loading ng-show="sysloading"></div>
+    <div class="row" ng-show="!(sysloading)">
+        <div class="col-lg-6 col-md-6 col-xs-12">
+            <rd-widget>
+                <rd-widget-body>
+                    <div class="widget-icon blue pull-left">
+                        <i class="fa fa-cloud"></i>
+                    </div>
+                    <div class="title">System info</div>
+                    <div class="comment wrap">Interesting stats on your pc:</div>
+                    <br><br>
+                    <div class="wrap table-responsive clear">
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                                  <tr ng-repeat="(key, value) in sysinfo">
+                                <td class="col-md-3"> <strong> {{ key | underscoreToSpace}} </strong> </td>
+                                <td ng-if="key != 'Bootup_time' && key != 'Uptime'  "> {{ value }} </td>
+                                <td ng-if="key == 'Bootup_time' "> {{ value }}</td>
+                                <td ng-if="key == 'Uptime' "> {{ value | secondsToDateTime | date:'HH:mm:ss'}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </rd-widget-body>
+            </rd-widget>
+        </div>
+    </div>
+
+</div>

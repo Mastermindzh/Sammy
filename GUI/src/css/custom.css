@@ -1,0 +1,33 @@
+body{
+    line-height: normal;
+}
+
+.page-content{
+    padding-top: 20px;
+}
+
+.wrap{
+    word-wrap: break-word;
+}
+
+.cpuTemp{
+    width: 9px;
+    height: auto;
+    margin-right: 5px;
+}
+
+.errorSpan{
+    font-size: 12px;
+}
+
+.danger{
+    color: #a94442;
+}
+
+.safe{
+    color: #3c763d;
+}
+
+.warning{
+    color: #8a6d3b;
+}

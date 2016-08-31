@@ -21,10 +21,12 @@ In this case we append the url found below to "[http://127.0.0.1:5000](http://12
 We can test this by running: http://127.0.0.1:5000/pwd.
 This will return the current working directory of your Flask app
 
-| suffix  | Result |
-| ------------- | ------------- |
-| /cpu    | CPU information, includes temperatures and load average.  |
-| /mem    | Memory information, includes cache.  |
+| suffix  | Result | parameters |
+| ------------- | ------------- | ------------- |
+| /cpu    | CPU information, includes temperatures and load average.  | <ul><li>/temp</li><li>/load</li><li>/info</li></ul>|
+| /mem    | Memory information, includes swap.  | <ul><li>/load</li><li>/info</li></ul>|
+| /sysinfo    | General system information  | <ul><li>-</li></ul>|
+| /disk    | Hard drive information  | <ul><li>-</li></ul>|
 
 # Coding styleguide
 We will be following [Google's shell style guide](https://google.github.io/styleguide/shell.xml) for our Bash scripts.

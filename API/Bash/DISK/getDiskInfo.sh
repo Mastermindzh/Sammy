@@ -25,8 +25,13 @@ while read line; do
 		#smartdata
 		smartdatajson=$(bash Bash/DISK/getSmartData.sh $currentdevice)
 
-		array=("$partitionjson" "$smartdatajson")
-		json=$(combine_json "${array[@]}")
+        if [ -n "$smartdatajson" ]; then
+            array=("$partitionjson" "$smartdatajson")
+            json=$(combine_json "${array[@]}")
+        else
+            json=("$partitionjson")
+        fi
+
 		json="{\"$currentdevice\":$json}"
 
 		if [[ "$diskinfo_json" != "" ]]; then
@@ -35,6 +40,7 @@ while read line; do
 		else
 			diskinfo_json="$json"
 		fi
+
 	fi
 done < <(echo "$disklist")
 
