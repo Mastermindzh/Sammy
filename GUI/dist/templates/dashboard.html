@@ -1,3 +1,5 @@
+
+
 <div data-ng-controller="DashboardCtrl">
     <div rd-loading ng-show="cpuloading || memloading"></div>
     <div class="row" ng-show="!(cpuloading || memloading)">
@@ -5,9 +7,9 @@
             <rd-widget>
                 <rd-widget-body>
                     <div class="widget-icon green pull-left">
-                        <i class="fa fa-tasks"></i>
+                        <i class="material-icons">memory</i>
                     </div>
-                    <div class="title">CPU</div>
+                    <div class="title">Processor</div>
                     <div class="comment">
                         {{ cpuinfo['Model name'] }}
                     </div>
@@ -18,9 +20,9 @@
             <rd-widget>
                 <rd-widget-body>
                     <div class="widget-icon red pull-left">
-                        <i class="fa fa-tasks"></i>
+                        <i class="material-icons">power_input</i>
                     </div>
-                    <div class="title">RAM</div>
+                    <div class="title">Memory</div>
                     <div class="comment">Used {{ meminfo.used }} of {{ meminfo.total }} <strong>({{ ((meminfo.used.slice(0,-1) / meminfo.total.slice(0,-1)) * 100) | number:2}} %)</strong></div>
                 </rd-widget-body>
             </rd-widget>
@@ -29,7 +31,7 @@
             <rd-widget>
                 <rd-widget-body>
                     <div class="widget-icon orange pull-left">
-                        <i class="fa fa-sitemap"></i>
+                        <i class="material-icons">videogame_asset</i>
                     </div>
                     <div class="title">GPU</div>
                     <div class="comment">GPU AWESOMENESS</div>
@@ -45,7 +47,7 @@
             <rd-widget>
                 <rd-widget-body>
                     <div class="widget-icon blue pull-left">
-                        <i class="fa fa-cloud"></i>
+                        <i class="material-icons">computer</i>
                     </div>
                     <div class="title">System info</div>
                     <div class="comment wrap">Interesting stats on your pc:</div>
