@@ -11,5 +11,8 @@ apt-get install -y python-pip smartmontools
 
 # install flask
 pip install flask
-
+pip install flask_cache
 pip install flask-cors
+
+# install the Meinheld server
+pip install Meinheld

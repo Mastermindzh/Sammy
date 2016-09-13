@@ -10,6 +10,40 @@ body{
     word-wrap: break-word;
 }
 
+.no-top-margin{
+    margin-top:0px;
+}
+
+.no-margin{
+    margin:0px;
+}
+
+.cpuSquare{
+    width: 75px;
+    height: 75px;
+    margin: 10px;
+    line-height:75px;
+    font-weight:bolder;
+    font-size: 32px;
+    color: white;
+    text-align:center;
+}
+
+.cpuRed{
+    background-color: #d9534f;
+}
+
+.cpuYellow{
+    background-color: #f0ad4e;
+}
+
+.cpuGreen{
+    background-color: #5cb85c;
+}
+
+
+
+
 /** Error messages **/
 
 .errorSpan{

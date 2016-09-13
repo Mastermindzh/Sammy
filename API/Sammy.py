@@ -61,7 +61,7 @@ def get_sys_info():
 
 
 # Disk info
-@app.route('/disk/')
+@app.route('/disks/')
 def get_disk_info():
     process = subprocess.Popen(["bash", "Bash/DISK/getDiskInfo.sh"], stdout=subprocess.PIPE)
     return process.communicate()[0]

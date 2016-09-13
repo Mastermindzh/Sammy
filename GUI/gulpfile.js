@@ -18,7 +18,6 @@ var paths = {
     index: 'src/index.html',
     bower_fonts: 'src/components/**/*.{ttf,woff,eof,svg,woff2}',
     config: 'src/config.js',
-    extjs: 'src/extjs/*.*'
 };
 
 /**
@@ -49,7 +48,7 @@ gulp.task('copy-bower_fonts', function() {
 /**
  * Handle custom files
  */
-gulp.task('build-custom', ['custom-images', 'custom-js', 'custom-less', 'custom-templates', 'custom-config', 'custom-extjs']);
+gulp.task('build-custom', ['custom-images', 'custom-js', 'custom-less', 'custom-templates', 'custom-config']);
 
 gulp.task('custom-images', function() {
     return gulp.src(paths.images)
@@ -60,12 +59,6 @@ gulp.task('custom-config', function() {
     return gulp.src(paths.config)
         .pipe(minifyJs())
         .pipe(gulp.dest('dist/'));
-});
-
-gulp.task('custom-extjs', function() {
-    return gulp.src(paths.extjs)
-        .pipe(minifyJs())
-        .pipe(gulp.dest('dist/js/'));
 });
 
 gulp.task('custom-js', function() {

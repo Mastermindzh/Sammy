@@ -31,7 +31,7 @@ This will return the current working directory of your Flask app
 | /cpu    | CPU information, includes temperatures and load average.  | <ul><li>/temp</li><li>/load</li><li>/info</li></ul>|
 | /mem    | Memory information, includes swap.  | <ul><li>/load</li><li>/info</li></ul>|
 | /sysinfo    | General system information  | <ul><li>-</li></ul>|
-| /disk    | Hard drive information  | <ul><li>-</li></ul>|
+| /disks    | Hard drive information  | <ul><li>-</li></ul>|
 
 # Coding styleguide
 We will be following [Google's shell style guide](https://google.github.io/styleguide/shell.xml) for our Bash scripts.

@@ -1,5 +1,5 @@
 
-var app = angular.module('Sammy-gui', ['ui.bootstrap', 'ui.router', 'ngCookies'])
+var app = angular.module('Sammy-gui', ['ui.bootstrap', 'ui.router', 'ngCookies', 'chart.js'])
 
 /* converts seconds date */
 .filter('secondsToDateTime', [function() {
@@ -13,4 +13,6 @@ var app = angular.module('Sammy-gui', ['ui.bootstrap', 'ui.router', 'ngCookies']
       return input.replace(/_/g, ' ');
   };
 });
+
+
 
