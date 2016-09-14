@@ -45,8 +45,16 @@ This package exposes a Flask extension which by default enables CORS support on 
 To install it run:
 `sudo pip install -U flask-cors`
 
+### Installing pip for python3
+To install pip for python 3 (which is needed for meinheld) we use:
+`curl -O https://bootstrap.pypa.io/get-pip.py`
+after that we execute:
+`sudo python3 get-pip.py`
+
 ### Meinheld server
 We are going to need a decent webserver to handle all the requests, the simple built-in (debug) server just won't do the trick.
 To install "Meinheld" we use:
 `sudo pip install Meinheld`
+
+
 

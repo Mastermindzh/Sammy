@@ -7,7 +7,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # install node (and npm)
-apt-get install nodejs npm node-semver
+apt-get install -y nodejs npm node-semver
 
 # install requirements
 apt-get install -y python-pip smartmontools
