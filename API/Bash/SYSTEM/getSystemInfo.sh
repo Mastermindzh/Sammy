@@ -4,10 +4,8 @@
 # Last modification date: 2016-07-16
 # dependencies: 
 
-LANGUAGE=C
-
-# include json functions
-. "$(dirname "$0")/"Includes/json_functions.sh
+# include general settings
+. "$(dirname "$0")/../"Includes/general_settings.sh
 
 get_system_info(){
     # Read uptime in seconds

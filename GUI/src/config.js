@@ -1,3 +1,3 @@
 var configItems = {
-    "APIurl":"http://192.168.1.6:5000",
+    "APIurl":"http://127.0.0.1:5000",
 };

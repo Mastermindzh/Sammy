@@ -56,14 +56,14 @@ def get_mem_info(info=None):
 # System info
 @app.route('/sysinfo/')
 def get_sys_info():
-    process = subprocess.Popen("./Bash/getSystemInfo.sh", stdout=subprocess.PIPE)
+    process = subprocess.Popen("./Bash/SYSTEM/getSystemInfo.sh", stdout=subprocess.PIPE)
     return process.communicate()[0]
 
 
 # Disk info
 @app.route('/disks/')
 def get_disk_info():
-    process = subprocess.Popen(["bash", "Bash/DISK/getDiskInfo.sh"], stdout=subprocess.PIPE)
+    process = subprocess.Popen(["bash", "Bash/DISK/getAll.sh"], stdout=subprocess.PIPE)
     return process.communicate()[0]
 
 

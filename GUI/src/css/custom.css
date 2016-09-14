@@ -18,6 +18,11 @@ body{
     margin:0px;
 }
 
+.memLoadColour{
+    color: black !important;
+    padding-left: 5px;
+}
+
 .cpuSquare{
     width: 75px;
     height: 75px;
