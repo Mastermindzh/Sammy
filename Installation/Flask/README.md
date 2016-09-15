@@ -9,12 +9,20 @@ We'll do this by installing "pip" on top of python first and then we'll install 
 
 
 ### Installing pip
+#####If you are (by default) using a python version below 3 skip this bit and read Installing pip for python3.
+
 Depending on your distro you'll have to run either one of these commands:
 
 - Ubuntu:   `sudo apt-get install python-pip`
 - Fedora:   `sudo yum install python-pip`
 - Arch:     `sudo pacman -S python-pip`
 - Raspbian: `sudo apt-get install python-pip`
+
+### Installing pip for python3
+To install pip for python 3 (which is needed for meinheld) we use:
+`curl -O https://bootstrap.pypa.io/get-pip.py`
+after that we execute:
+`sudo python3 get-pip.py`
 
 ### Installing Flask systemwide
 To install flask systemwide we use:
@@ -44,12 +52,6 @@ You'll see the command prompt change a bit and after that you have to run the fo
 This package exposes a Flask extension which by default enables CORS support on all routes, for all origins and methods. It allows parameterization of all CORS headers on a per-resource level. The package also contains a decorator, for those who prefer this approach.
 To install it run:
 `sudo pip install -U flask-cors`
-
-### Installing pip for python3
-To install pip for python 3 (which is needed for meinheld) we use:
-`curl -O https://bootstrap.pypa.io/get-pip.py`
-after that we execute:
-`sudo python3 get-pip.py`
 
 ### Meinheld server
 We are going to need a decent webserver to handle all the requests, the simple built-in (debug) server just won't do the trick.

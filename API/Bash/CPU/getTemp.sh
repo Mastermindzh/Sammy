@@ -19,7 +19,7 @@ get_temperatures(){
 		# get sensor data
 		vendor=$(sensors | grep -w "Core 0:")
 		if [ -z "$vendor" ]; then
-			s=$(sensors | grep "CPU Temperature" | sed 's/([^)]*)//g' | tr -s " ")
+			s=$(sensors | grep "CPU Temperature\|temp1" | sed 's/([^)]*)//g' | tr -s " ")
 		else
 			s=$(sensors | grep -w Core | sed 's/([^)]*)//g' | tr -s " ")
 		fi
@@ -31,7 +31,7 @@ get_temperatures(){
 			var=$(echo "$line" | sed -e 's/Core\(.*\):/\1/' | sed -e 's/temp\(.*\):/\1/')
 
 			first=true
-
+            temperatures["Unit"]=$(echo -n $var | tail -c 1)
 			# loop through words in line
 			for word in $var; do
 				# set the first word as key
@@ -40,7 +40,7 @@ get_temperatures(){
 					key=$word
 				else
 					# set second word as value
-					value=$word
+					value=$(echo "$word" | cut -c 2- | rev | cut -c 6- | rev)
 				fi
 			done
 			# finally put it into an associative array
