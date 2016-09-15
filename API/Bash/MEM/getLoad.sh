@@ -4,10 +4,11 @@
 # Last modification date: 2016-07-20
 # dependencies: lm_sensors
 
-LANGUAGE=C
 
-# include json functions
-. "$(dirname "$0")/../"Includes/json_functions.sh
+# include general settings
+. "$(dirname "$0")/../"Includes/general_settings.sh
+
+
 
 get_mem_info(){
     # make sure all function variables are local ones

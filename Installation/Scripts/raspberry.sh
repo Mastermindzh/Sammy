@@ -6,8 +6,23 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# install requirements
-apt-get install -y python-pip smartmontools
+# install node (and npm)
+apt-get install -y nodejs npm node-semver python3-pip smartmontools
 
-# install flask
-pip install flask
+# fetch the absolute LATEST pip :)
+curl -O https://bootstrap.pypa.io/get-pip.py
+python3 get-pip.py
+
+# install flask and meinheld
+pip install flask flask_cache flask-cors Meinheld
+
+npm install -g bower gulp
+
+cd ../../GUI
+
+npm install
+
+bower install --allow-root
+
+echo "All done, execute the run.sh file in the root directory and navigate to localhost:5000 for the api and localhost:8888 for the gui!"
+

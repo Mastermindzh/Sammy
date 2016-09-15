@@ -4,11 +4,8 @@
 # Last modification date: 2016-07-16
 # dependencies: gsmartcontrol, hddtemp
 
-LANGUAGE=C
-
-# include functions
-. "$(dirname "$0")/../"Includes/json_functions.sh
-. "$(dirname "$0")/../"Includes/functions.sh
+# include general settings
+. "$(dirname "$0")/../"Includes/general_settings.sh
 
 # vars
 diskspace=$(df -T -l)
@@ -25,8 +22,13 @@ while read line; do
 		#smartdata
 		smartdatajson=$(bash Bash/DISK/getSmartData.sh $currentdevice)
 
-		array=("$partitionjson" "$smartdatajson")
-		json=$(combine_json "${array[@]}")
+        if [ -n "$smartdatajson" ]; then
+            array=("$partitionjson" "$smartdatajson")
+            json=$(combine_json "${array[@]}")
+        else
+            json=("$partitionjson")
+        fi
+
 		json="{\"$currentdevice\":$json}"
 
 		if [[ "$diskinfo_json" != "" ]]; then
@@ -35,6 +37,7 @@ while read line; do
 		else
 			diskinfo_json="$json"
 		fi
+
 	fi
 done < <(echo "$disklist")
 

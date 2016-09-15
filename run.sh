@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
-
 # navigate to the correct folder
 cd API
 
-# set Sammy.py as the flask app var
-export FLASK_APP="Sammy.py"
+# run Sammy.py
+python3 Sammy.py > /dev/null &
 
-# Set the debug flag to 1
-export FLASK_DEBUG=1
+# run dev server
+cd ../GUI
 
-# Run the api
-flask run
+gulp
+
+
+
+
+
