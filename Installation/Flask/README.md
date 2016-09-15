@@ -30,6 +30,19 @@ To install flask systemwide we use:
 In order for the caching to work we use:
 `sudo pip install flask_cache`
 
+### Flask-Cors
+This package exposes a Flask extension which by default enables CORS support on all routes, for all origins and methods. It allows parameterization of all CORS headers on a per-resource level. The package also contains a decorator, for those who prefer this approach.
+To install it run:
+`sudo pip install -U flask-cors`
+
+### Meinheld server
+We are going to need a decent webserver to handle all the requests, the simple built-in (debug) server just won't do the trick.
+To install "Meinheld" we use:
+`sudo pip install Meinheld`
+
+
+
+
 
 ### Installing Flask in a virtualenv
 To install the virtualenv you need pip. If you've got pip installed simply run:
@@ -47,16 +60,4 @@ Now we just run the virtual environment with:
 `. venv/bin/activate`
 You'll see the command prompt change a bit and after that you have to run the following command to install Flask:
 `sudo pip install flask`
-
-### Flask-Cors
-This package exposes a Flask extension which by default enables CORS support on all routes, for all origins and methods. It allows parameterization of all CORS headers on a per-resource level. The package also contains a decorator, for those who prefer this approach.
-To install it run:
-`sudo pip install -U flask-cors`
-
-### Meinheld server
-We are going to need a decent webserver to handle all the requests, the simple built-in (debug) server just won't do the trick.
-To install "Meinheld" we use:
-`sudo pip install Meinheld`
-
-
 
