@@ -32,6 +32,8 @@ get_temperatures(){
 
 			first=true
             temperatures["Unit"]=$(echo -n $var | tail -c 1)
+
+            var=$(echo -n $var | rev | cut -c 2- | rev)
 			# loop through words in line
 			for word in $var; do
 				# set the first word as key
@@ -40,7 +42,7 @@ get_temperatures(){
 					key=$word
 				else
 					# set second word as value
-					value=$(echo "$word" | cut -c 2- | rev | cut -c 6- | rev)
+					value=$(echo "$word" | cut -c 2- | rev | cut -c 3- | rev)
 				fi
 			done
 			# finally put it into an associative array

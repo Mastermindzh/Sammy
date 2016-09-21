@@ -53,18 +53,26 @@ def get_mem_info(info=None):
     return run_bash_file(route)
 
 
-# System info
-@app.route('/sysinfo/')
-def get_sys_info():
-    process = subprocess.Popen("./Bash/SYSTEM/getSystemInfo.sh", stdout=subprocess.PIPE)
-    return process.communicate()[0]
-
-
 # Disk info
 @app.route('/disks/')
 def get_disk_info():
-    process = subprocess.Popen(["bash", "Bash/DISK/getAll.sh"], stdout=subprocess.PIPE)
-    return process.communicate()[0]
+    return run_bash_file("Bash/DISK/getAll.sh")
+
+
+# System info
+@app.route('/sysinfo/')
+def get_sys_info():
+    return run_bash_file("./Bash/SYSTEM/getSystemInfo.sh")
+
+
+@app.route('/system/shutdown')
+def system_shutdown():
+    return run_bash_file("Bash/SYSTEM/shutdown.sh")
+
+
+@app.route('/system/reboot')
+def system_reboot():
+    return run_bash_file("Bash/SYSTEM/reboot.sh")
 
 
 # custom methods
@@ -79,13 +87,14 @@ def run_bash_file(filepath):
     else:
         return '{"Error":"no such route."}'
 
-
-
 def getInfo():
     pwd = subprocess.Popen("pwd", stdout=subprocess.PIPE, )
     dict = {'Host': request.host, 'Working directory': pwd.communicate(0)[0]}
     return dict
 
+@app.route('/shutdownsammy/')
+def shutdownSammy():
+    meinheld.stop()
 
 meinheld.listen(("0.0.0.0", 5000))
 meinheld.run(app)
