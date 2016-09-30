@@ -4,11 +4,8 @@
 # Last modification date: 2016-07-16
 # dependencies: 
 
-LANGUAGE=C
-
-# include functions
-. "$(dirname "$0")/../"Includes/json_functions.sh
-. "$(dirname "$0")/../"Includes/functions.sh
+# include general settings
+. "$(dirname "$0")/../"Includes/general_settings.sh
 
 #Current device where we want information from
 currentdevice=$1

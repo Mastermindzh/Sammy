@@ -1,2 +1,4 @@
 .idea/
 __pycache__/
+/GUI/node_modules/
+/GUI/src/components/
