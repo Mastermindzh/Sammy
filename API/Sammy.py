@@ -67,6 +67,26 @@ def get_disk_info():
     return process.communicate()[0]
 
 
+# Greyhole
+@app.route('/greyhole/', defaults={"info": "Bash/GREYHOLE/getGreyholeInfo.sh"})
+@app.route('/greyhole/<info>')
+def get_greyhole_info(info=None):
+    try:
+        routes = {
+            "info": "Bash/GREYHOLE/getGreyholeInfo.sh",
+            "statistics": "Bash/GREYHOLE/getStatistics.sh",
+            "queue": "Bash/GREYHOLE/getQueue.sh",
+            "log": "Bash/GREYHOLE/getLog.sh",
+            "io": "Bash/GREYHOLE/getIO.sh",
+        }
+        route = routes[info]
+    except Exception:
+        route = info
+
+    return run_bash_file(route)
+
+
+
 # custom methods
 def run_bash_file(filepath):
     """Execute a bash file and returns the output of the command.
