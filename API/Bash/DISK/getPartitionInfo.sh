@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Author: Janco Kock
 # Contributors: Rick van Lieshout
 # Last modification date: 2016-07-16
