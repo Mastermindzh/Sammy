@@ -47,3 +47,28 @@ combine_json(){
 
     echo $func_output
 }
+
+# Bash array to Json array
+# Usage: json_array "$(declare -p temperatures)
+json_array(){
+	
+	array=("$@")
+	
+	#remove the last parameter which we are using as our key
+	((last_index=${#array[@]} - 1))
+    key=${array[last_index]}
+    unset array[last_index]
+    
+    func_output="{\"$key\":["
+	
+	for i in "${array[@]}"
+	do
+		func_output="$func_output \"$i\","
+	done
+	func_output=$(echo "$func_output" | sed 's/,$//')
+
+    func_output="$func_output ]}"
+
+	echo "$func_output"
+}
+
