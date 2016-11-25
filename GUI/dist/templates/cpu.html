@@ -5,18 +5,17 @@
             <rd-widget>
                 <rd-widget-header title="Temperatures in {{temps[0].Unit}}" icon="fa-area-chart">
                 </rd-widget-header>
-                <rd-widget-body classes="">
+                <rd-widget-body classes="no-padding">
                     <div rd-loading ng-show="cputemploading"></div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="col-lg-3 col-md-3" data-ng-repeat="(key,value) in temps[temps.length -1]">
+                    <div class="row no-padding">
+                        <div class="col-lg-12 no-padding">
+                            <div class="col-md-3 col-sm-3 col-xs-6" data-ng-repeat="(key,value) in temps[temps.length -1]">
                                 <div class="cpuSquare" ng-if="key != 'Unit'" ng-class="
                                     {
                                         'cpuGreen':  (value | number) <= 50,
                                         'cpuYellow':  (value | number) < 75 && (value | number) > 50,
                                         'cpuRed':  (value | number) >= 75
                                     }">
-
                                     {{(value | number)}}
                                 </div>
                             </div>

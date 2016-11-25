@@ -53,7 +53,7 @@
       </ul>
       <div class="sidebar-footer">
         <div class="col-xs-4">
-          <a href="https://github.com/mastermindzh/Sammy" target="_blank">
+          <a href="https://github.com/SammySolutions" target="_blank">
             Github
           </a>
         </div>
@@ -63,6 +63,51 @@
 
     <div id="content-wrapper">
       <div class="page-content">
+
+        <div class="row header" data-ng-controller="HeaderCtrl">
+          <div class="col-xs-12">
+            <div class="user pull-right">
+              <div class="item dropdown" uib-dropdown>
+                <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li class="dropdown-header">
+                    System actions
+                  </li>
+                  <li class="divider"></li>
+                  <li class="link">
+                    <a href="#">
+                      <i class="fa fa-info-circle normalIcon pull-right" style ="color: #2361AE" aria-hidden="true"></i> Info
+                    </a>
+                  </li>
+                  <li class="link">
+                    <a href="#" data-ng-click="reboot()">
+                      <i class="fa fa-refresh normalIcon pull-right" aria-hidden="true" style ="color: #23AE89;"></i> Reboot
+                    </a>
+                  </li>
+                  <li class="divider"></li>
+                  <li class="link">
+                    <a href="#" data-ng-click="shutdown()">
+                       <i class="fa fa-power-off normalIcon pull-right" aria-hidden="true" style="color: #AE2323;"></i>Shut down
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="meta">
+              <div class="page">
+                {{currentPage}}
+              </div>
+              <div class="breadcrumb-links">
+                <a href = "#">Home</a>
+                <span data-ng-repeat="crumb in crumbs track by $index" data-ng-if="!(crumb=='')">
+                / <a href = "#/{{crumb}}">{{crumb}}</a>
+                  </span>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- Alerts -->
         <div class="row alerts-container" data-ng-controller="AlertsCtrl">
