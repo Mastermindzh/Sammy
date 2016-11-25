@@ -66,6 +66,11 @@ def get_disk_info():
     process = subprocess.Popen(["bash", "Bash/DISK/getAll.sh"], stdout=subprocess.PIPE)
     return process.communicate()[0]
 
+# Samba
+@app.route('/samba/')
+def get_samba_info():
+    process = subprocess.Popen(["bash", "Bash/SAMBA/getAll.sh"], stdout=subprocess.PIPE)
+    return process.communicate()[0]
 
 # custom methods
 def run_bash_file(filepath):
