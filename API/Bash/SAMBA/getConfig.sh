@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Author: Janco Kock
 # Contributors: Rick van Lieshout
-# Last modification date: 2016-10-11
+# Last modification date: 2016-11-25
 # dependencies: smb
 
 # include general settings
@@ -9,21 +9,21 @@
 
 
 get_config(){
-	#Config path where we should read from
+	#Samba config file path where we should read from
 	configpath="/etc/samba/smb.conf"
 
+	#If config file doesn't exist, return a error
 	if [ ! -f $configpath ]; then
 		echo '{"error":"Samba configuration file not found"}'
 	else
-		#assocotive array which will hold all the informatoin
+		#Assocotive array which will hold all the informatoin
 		declare -A samba_config
 
 		while read line;
 		do
-			if [[ $line == \[*] ]] 		#Section
+			if [[ $line == \[*] ]] 																		#If this is a section header
 			then
-				#get the json of the last section if there was one
-				if [ ! -z "$section" -a "$section" != " " ] 
+				if [ ! -z "$section" -a "$section" != " " ] 						#Parse json from last section if there was one
 				then
 					json="$(get_json "$(declare -p share_info)" "$section")"				
 					#Combine this to the total json object, if the total json object is not empty
@@ -35,14 +35,14 @@ get_config(){
 					fi
 					unset share_info
 				fi
-				# declare an associative array
+				# declare an new associative array
 				declare -A share_info
 				section=$line
-			elif [[ $line != \#* ]] && [[ $line != \;* ]] && [ ! -z "$line" -a "$line" != " " ] #Values
+			elif [[ $line != \#* ]] && [[ $line != \;* ]] && [ ! -z "$line" -a "$line" != " " ] #If this line is a value
 			then
-				key=$(echo $line | cut -d"=" -f 1)
+				key=$(echo $line | cut -d"=" -f 1)												#Split line on "="
 				value=$(echo $line | cut -d"=" -f 2)
-				share_info[$key]=$value
+				share_info[$key]=$value																		#Add information to current share
 			fi
 		done < $configpath
 

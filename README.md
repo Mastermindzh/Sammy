@@ -32,6 +32,7 @@ This will return the current working directory of your Flask app
 | /mem    | Memory information, includes swap.  | <ul><li>/load</li><li>/info</li></ul>|
 | /sysinfo    | General system information  | <ul><li>-</li></ul>|
 | /disks    | Hard drive information  | <ul><li>-</li></ul>|
+| /samba    | Samba service information  | <ul><li>-</li></ul>|
 
 # Coding styleguide
 We will be following [Google's shell style guide](https://google.github.io/styleguide/shell.xml) for our Bash scripts.
