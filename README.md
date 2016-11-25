@@ -10,7 +10,7 @@ Only the person(s) originally assigned to the card may delete the card IF the co
 If you've made it through that explanation feel free to have a look at what we're doing: [https://trello.com/b/rwl3X5wq/scrumboard](https://trello.com/b/rwl3X5wq/scrumboard)
 
 # How to run
-Make sure you have flask and it's dependencies installed (see Installation/Flask) and run:
+Make sure you have everything installed (Documentation/Installation.MD) and run:
 `./run.sh`
 or
 `bash run.sh`
