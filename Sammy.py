@@ -64,6 +64,9 @@ def get_disk_info():
 def get_sys_info():
     return run_bash_file("./Bash/SYSTEM/getSystemInfo.sh")
 
+@app.route('/sysinfo/usb')
+def get_usb_info():
+    return run_bash_file("./Bash/SYSTEM/getUsbDevices.sh")
 
 @app.route('/system/shutdown')
 def system_shutdown():

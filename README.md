@@ -30,7 +30,7 @@ This will return the current working directory of your Flask app
 | ------------- | ------------- | ------------- |
 | /cpu    | CPU information, includes temperatures and load average.  | <ul><li>/temp</li><li>/load</li><li>/info</li></ul>|
 | /mem    | Memory information, includes swap.  | <ul><li>/load</li><li>/info</li></ul>|
-| /sysinfo    | General system information  | <ul><li>-</li></ul>|
+| /sysinfo    | General system information  | <ul><li>/usb</li></ul>|
 | /disks    | Hard drive information  | <ul><li>-</li></ul>|
 
 # Coding styleguide
@@ -39,7 +39,7 @@ And we will be following [Pep 8 -- Style Guide for Python Code](https://www.pyth
 
 # Contributors
 Neither Janco nor myself are perfect people... So for some of the things we've had some help!
-Below you'll find a list of people whom contributed to the project:
+Below you'll find a list of people whom contributed to the project without a github account:
 
 | Name | Nickname | Work done |
 | ---- | -------- | --------- |

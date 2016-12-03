@@ -48,6 +48,12 @@ combine_json(){
     echo $func_output
 }
 
+array_with_json_to_json_array(){
+    array=("$@")
+
+
+}
+
 # Bash array to Json array
 # Usage: json_array "$(declare -p temperatures)
 json_array(){
