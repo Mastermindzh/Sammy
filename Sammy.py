@@ -74,6 +74,11 @@ def system_shutdown():
 def system_reboot():
     return run_bash_file("Bash/SYSTEM/reboot.sh")
 
+# Samba
+@app.route('/samba/')
+def get_samba_info():
+    process = subprocess.Popen(["bash", "Bash/SAMBA/getAll.sh"], stdout=subprocess.PIPE)
+    return process.communicate()[0]
 
 # Greyhole
 @app.route('/greyhole/', defaults={"info": "Bash/GREYHOLE/getGreyholeInfo.sh"})
