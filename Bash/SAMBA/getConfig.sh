@@ -21,9 +21,11 @@ get_config(){
 
 		while read line;
 		do
-			if [[ $line == \[*] ]] 																		#If this is a section header
+		    #If this is a section header
+			if [[ $line == \[*] ]]
 			then
-				if [ ! -z "$section" -a "$section" != " " ] 						#Parse json from last section if there was one
+				#Parse json from last section if there was one
+				if [ ! -z "$section" -a "$section" != " " ]
 				then
 					json="$(get_json "$(declare -p share_info)" "$section")"				
 					#Combine this to the total json object, if the total json object is not empty
@@ -38,11 +40,15 @@ get_config(){
 				# declare an new associative array
 				declare -A share_info
 				section=$line
-			elif [[ $line != \#* ]] && [[ $line != \;* ]] && [ ! -z "$line" -a "$line" != " " ] #If this line is a value
+
+			#If this line is a value
+			elif [[ $line != \#* ]] && [[ $line != \;* ]] && [ ! -z "$line" -a "$line" != " " ]
 			then
-				key=$(echo $line | cut -d"=" -f 1)												#Split line on "="
+			    #Split line on "="
+				key=$(echo $line | cut -d"=" -f 1)
 				value=$(echo $line | cut -d"=" -f 2)
-				share_info[$key]=$value																		#Add information to current share
+				#Add information to current share
+				share_info[$key]=$value
 			fi
 		done < $configpath
 
